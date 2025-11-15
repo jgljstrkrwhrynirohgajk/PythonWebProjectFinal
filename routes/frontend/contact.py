@@ -3,8 +3,8 @@ import requests
 
 app.secret_key = 'any_secret_key'  # Needed for flash messages
 # 🔹 Replace with your actual Telegram Bot Token and Chat ID
-BOT_TOKEN = '8427622540:AAHL6RawAHwLCQWqBNEbndZQU3FOIrlxvXo'
-CHAT_ID = '@chanrathan_bot'
+BOT_TOKEN = '8574185655:AAFi_iiFZboj2KNDAnh1P_8g2FkcH-x6ApQ'
+CHAT_ID = '@piseth99_bot'
 
 @app.route('/contact')
 def contact():  # put application's code here
@@ -12,14 +12,13 @@ def contact():  # put application's code here
 
 @app.route('/send', methods=['POST'])
 def send_message():
-    fname = request.form['fname']
-    lname = request.form['lname']
+    name = request.form['name']
     email = request.form['email']
     message = request.form['message']
 
     text = f"""
 📩 New Contact Form Message:
-👤 Name: {fname} {lname}
+👤 Name: {name}
 📧 Email: {email}
 💬 Message: {message}
     """
