@@ -1,4 +1,4 @@
-.idea/*
-__pycache__/
-venv/
-
+# created by virtualenv automatically
+/.venv
+/instance
+/migrations

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+      {% block title %}
+
+      {% endblock %}
+  </title>
+    {% include 'backend/layout/style.html' %}
+    {% block sweetAlertCss %}
+    	
+    {% endblock %}
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    {% include 'backend/layout/header.html' %}
+    {% include 'backend/layout/sidebar.html' %}
+
+    {% block content %}
+
+    {% endblock %}
+
+    {% include 'backend/layout/footer.html' %}
+    {% include 'backend/layout/script.html' %}
+    {% block sweetAlertScrip %}
+
+    {% endblock %}
+</div>
+</body>
+</html>

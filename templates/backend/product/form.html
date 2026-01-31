@@ -1,0 +1,159 @@
+{% extends 'backend/layout/master.html' %}
+
+{% block title %}
+	Add Product
+{% endblock %}
+
+{% block content %}
+
+      <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">{{ status }} Product</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{{ url_for("dashboard") }}">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{ url_for("product") }}">Product</a></li>
+              <li class="breadcrumb-item active">{{ status }} Product</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card">
+                <div class="card-header">
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <a href="{{ url_for("product") }}" class="btn btn-block btn-outline-secondary"><i class="fas fa-arrow-left"></i> Back</a>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form action="{{ url_for("save_product")}}" method="post" enctype="multipart/form-data">
+              {{ form.csrf_token }}
+                <input type="hidden" name="status" value="{{ status }}">
+              {% if status == 'edit' %}
+                <input type="hidden" name="pro_id" value="{{ pro_id }}">
+                <input type="hidden" name="old_image" value="{{ product.image }}">
+              {% endif %}
+
+                <div class="card-body row">
+
+                    <div class="supplier-form-group col-md-12">
+                        <label>Profile Image</label>
+                        <div class="image-upload-wrapper">
+                            <img
+                                    src="{{ url_for('static', filename='uploads/') + product.image if product.image else url_for('static', filename='backend/dist/img/no_image.png') }}"
+                                    alt="Current Profile Image" class="image-preview" id="imagePreview"
+                                    onerror="this.onerror=null;this.src='{{ url_for('static', filename='backend/dist/img/img-error.svg') }}';"
+                            >
+                            <label for="image_path" class="upload-btn">Choose New Image</label>
+                            <input type="file" id="image_path" name="image_path" accept="image/*"
+                                onchange="previewImage(event)">
+                        </div>
+                    </div>
+
+                  <div class="form-group col-md-6">
+                    <label >Name <span class="text-danger">*</span></label>
+                    <input type="text" name="product_name" class="form-control" placeholder="Enter Name" value="{{ product.productname if status == 'edit'  }}">
+                  </div>
+                    <div class="form-group col-md-6">
+                    <label >Barcode <span class="text-danger">*</span></label>
+                    <input type="text" name="barcode" class="form-control" placeholder="Enter Barcode" value="{{ product.barcode if status == 'edit'  }}">
+                  </div>
+                    <div class="col-sm-6">
+                      <!-- select -->
+                      <div class="form-group">
+                        <label>Category <span class="text-danger">*</span></label>
+                        <select class="form-control" name="category">
+                            {% for category in category %}
+                            	<option value="{{ category.id }}" {{ 'selected' if product.category_id == category.id }}>{{ category.categoryname }}</option>
+                            {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                    <label>Cost <span class="text-danger">*</span></label>
+                    <input type="number" name="cost" class="form-control" placeholder="Enter Cost" value="{{ product.cost if status == 'edit' }}">
+                  </div>
+                    <div class="form-group col-md-6">
+                    <label>Price <span class="text-danger">*</span></label>
+                    <input type="number" name="price" class="form-control" placeholder="Enter Price" value="{{ product.price if status == 'edit'  }}">
+                  </div>
+
+                  <div class="form-group col-md-12">
+                      <label>Description</label>
+                      <textarea class="form-control" rows="3" name="description">{{ product.description if status == 'edit'  }}</textarea>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <button type="reset" class="btn btn-danger">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+          <!--/.col (left) -->
+
+          <style>
+        .image-upload-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .image-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #eee;
+        }
+
+        .upload-btn {
+            cursor: pointer;
+        }
+
+        #image_path {
+            display: none;
+        }
+    </style>
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('imagePreview');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+          <!-- right column -->
+        </div>
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+{% endblock %}
